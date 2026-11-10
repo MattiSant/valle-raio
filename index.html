@@ -18,21 +18,22 @@
     <canvas id="pollen-canvas"></canvas>
 
     <!-- NAVBAR -->
-    <header class="navbar">
+    <!-- SMART NAVBAR A SCOMPARSA -->
+    <header class="navbar" id="main-navbar">
         <div class="nav-container">
-            <a href="#" class="brand-logo">
-                <img src="logo.jpg" alt="Logo Apicoltura Valle Raio" class="nav-logo-img" onerror="this.style.display='none'">
-                <div class="brand-text">
-                    <span class="brand-main">Apicoltura Valle Raio</span>
-                    <span class="brand-sub">TORNIMPARTE • L'AQUILA</span>
-                </div>
-            </a>
-            <nav class="nav-links">
+            <!-- Pulsante Menu Mobile (Hamburger) -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Apri Menu">
+                <span></span><span></span><span></span>
+            </button>
+            
+            <!-- Link di Navigazione -->
+            <nav class="nav-links" id="nav-links">
                 <a href="#i-nostri-mieli">I Nostri Mieli</a>
                 <a href="#nostra-storia">La Nostra Storia</a>
                 <a href="#la-valle">La Valle</a>
                 <a href="#contatti">Ordina</a>
             </nav>
+            
             <a href="#contatti" class="btn-nav">Prenota Vasetto</a>
         </div>
     </header>

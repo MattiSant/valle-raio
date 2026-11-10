@@ -52,16 +52,22 @@ body {
 }
 
 /* =========================================================================
-   NAVBAR
+   SMART NAVBAR (A scomparsa)
    ========================================================================= */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 200;
-    background: rgba(251, 246, 234, 0.92);
+    background: rgba(251, 246, 234, 0.94);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-rustic);
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1), background 0.3s ease;
+}
+
+/* Classe aggiunta da JS per nascondere la barra */
+.navbar.nav-hidden {
+    transform: translateY(-100%);
 }
 
 .nav-container {
@@ -69,53 +75,22 @@ body {
     margin: 0 auto;
     padding: 12px 28px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Su PC centra tutto in modo elegante */
     align-items: center;
-}
-
-.brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-}
-
-.nav-logo-img {
-    height: 42px;
-    width: 42px;
-    object-fit: contain;
-    background: #fff;
-    border-radius: 50%;
-    padding: 3px;
-    box-shadow: 0 2px 10px rgba(90, 62, 36, 0.15);
-}
-
-.brand-main {
-    display: block;
-    font-family: var(--font-heading);
-    font-size: 1.45rem;
-    font-weight: 700;
-    color: var(--green-raio);
-    line-height: 1;
-}
-
-.brand-sub {
-    font-size: 0.62rem;
-    letter-spacing: 2px;
-    color: var(--earth-brown);
-    font-weight: 600;
+    gap: 40px;
 }
 
 .nav-links {
     display: flex;
     gap: 32px;
+    align-items: center;
 }
 
 .nav-links a {
     color: var(--text-primary);
     text-decoration: none;
-    font-size: 0.92rem;
-    font-weight: 500;
+    font-size: 0.95rem;
+    font-weight: 600;
     transition: color 0.25s;
 }
 
@@ -126,17 +101,42 @@ body {
 .btn-nav {
     background: var(--green-raio);
     color: #fff;
-    padding: 9px 22px;
+    padding: 10px 24px;
     border-radius: 4px;
     text-decoration: none;
-    font-size: 0.86rem;
+    font-size: 0.9rem;
     font-weight: 600;
+    white-space: nowrap;
     transition: background 0.25s;
 }
 
 .btn-nav:hover {
     background: var(--green-dark);
 }
+
+/* Pulsante Hamburger (Invisibile su PC) */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 201;
+}
+
+.mobile-menu-btn span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background-color: var(--green-raio);
+    transition: all 0.3s ease;
+}
+
+/* Animazione Hamburger -> X */
+.mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* =========================================================================
    HERO SECTION CON BANNER E MEDAGLIONE CIRCOLARE SFUMATO
@@ -1062,7 +1062,55 @@ body {
 }
 
 /* RESPONSIVE */
+/* RESPONSIVE MOBILE */
 @media (max-width: 960px) {
+    /* Navbar e Menu a tendina */
+    .nav-container {
+        justify-content: space-between;
+        padding: 12px 20px;
+        gap: 0;
+    }
+    .mobile-menu-btn {
+        display: flex;
+    }
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--bg-cream);
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        transform: translateY(-100%); /* Nascosto in alto */
+        transition: transform 0.4s ease;
+        z-index: 199;
+    }
+    .nav-links.menu-open {
+        transform: translateY(0);
+    }
+    .nav-links a {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+    }
+    
+    /* Sistemazione Banner Sformato e Spazi */
+    .hero-banner-section {
+        min-height: 100svh; /* Usa svh per ignorare la barra di Safari/Chrome */
+        padding: 110px 20px 40px; /* Più spazio in alto per distaccarsi dalla navbar */
+    }
+    .hero-logo-medallion {
+        width: 140px;
+        height: 140px;
+        padding: 14px;
+        margin-top: 10px;
+    }
+    .hero-content h1 {
+        font-size: clamp(2.4rem, 8vw, 3.2rem);
+    }
+
+    /* Layout Vasetto */
     .showcase-main-grid,
     .heritage-grid,
     .valley-top-showcase,
@@ -1086,5 +1134,4 @@ body {
     .hex-photo-item.offset-down {
         margin-top: 0;
     }
-    .nav-links { display: none; }
 }

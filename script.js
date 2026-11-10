@@ -85,6 +85,7 @@ let triggerPollenBurst = null;
 document.addEventListener("DOMContentLoaded", () => {
     initEnhancedPollenCanvas();
     initScrollRevealAnimations();
+    initSmartNavbar();
 
     if (mieliAttivi.length === 0) return;
 
@@ -396,4 +397,46 @@ function initEnhancedPollenCanvas() {
         requestAnimationFrame(draw);
     }
     draw();
+}
+
+/**
+ * ============================================================================
+ * SMART NAVBAR A SCOMPARSA & MENU MOBILE
+ * ============================================================================
+ */
+function initSmartNavbar() {
+    const navbar = document.getElementById('main-navbar');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    const links = navLinks.querySelectorAll('a');
+    let lastScrollY = window.scrollY;
+
+    // Scompare quando scorri in giù, riappare quando scorri in su
+    window.addEventListener('scroll', () => {
+        // Se il menu del telefono è aperto, non nascondere la barra
+        if (navLinks.classList.contains('menu-open')) return;
+
+        if (window.scrollY > lastScrollY && window.scrollY > 120) {
+            navbar.classList.add('nav-hidden');
+        } else {
+            navbar.classList.remove('nav-hidden');
+        }
+        lastScrollY = window.scrollY;
+    }, { passive: true });
+
+    // Apertura/Chiusura Menu Telefono
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('menu-open');
+            menuBtn.classList.toggle('open');
+        });
+    }
+
+    // Chiude il menu quando clicchi su una voce
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('menu-open');
+            menuBtn.classList.remove('open');
+        });
+    });
 }
