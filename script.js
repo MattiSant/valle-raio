@@ -401,42 +401,44 @@ function initEnhancedPollenCanvas() {
 
 /**
  * ============================================================================
- * SMART NAVBAR A SCOMPARSA & MENU MOBILE
+ * GESTIONE NAVBAR A SCOMPARSA E MENU MOBILE
  * ============================================================================
  */
 function initSmartNavbar() {
     const navbar = document.getElementById('main-navbar');
     const menuBtn = document.getElementById('mobile-menu-btn');
     const navLinks = document.getElementById('nav-links');
-    const links = navLinks.querySelectorAll('a');
-    let lastScrollY = window.scrollY;
 
-    // Scompare quando scorri in giù, riappare quando scorri in su
-    window.addEventListener('scroll', () => {
-        // Se il menu del telefono è aperto, non nascondere la barra
-        if (navLinks.classList.contains('menu-open')) return;
+    if (!menuBtn || !navLinks) return;
 
-        if (window.scrollY > lastScrollY && window.scrollY > 120) {
-            navbar.classList.add('nav-hidden');
-        } else {
-            navbar.classList.remove('nav-hidden');
-        }
-        lastScrollY = window.scrollY;
-    }, { passive: true });
+    // Apertura/Chiusura al click sull'hamburger
+    menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = navLinks.classList.toggle('menu-open');
+        menuBtn.classList.toggle('open', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
 
-    // Apertura/Chiusura Menu Telefono
-    if (menuBtn) {
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('menu-open');
-            menuBtn.classList.toggle('open');
-        });
-    }
-
-    // Chiude il menu quando clicchi su una voce
-    links.forEach(link => {
+    // Chiude il menu cliccando su qualsiasi link interno
+    navLinks.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('menu-open');
             menuBtn.classList.remove('open');
+            document.body.style.overflow = '';
         });
     });
+
+    // Scomparsa intelligente della navbar allo scroll in basso
+    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    window.addEventListener('scroll', () => {
+        if (navLinks.classList.contains('menu-open')) return;
+
+        const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            navbar.classList.add('nav-hidden');
+        } else if (currentScrollY < lastScrollY) {
+            navbar.classList.remove('nav-hidden');
+        }
+        lastScrollY = Math.max(0, currentScrollY);
+    }, { passive: true });
 }

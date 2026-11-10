@@ -114,29 +114,43 @@ body {
     background: var(--green-dark);
 }
 
-/* Pulsante Hamburger (Invisibile su PC) */
+/* =========================================================================
+   PULSANTE HAMBURGER ROBUSTO
+   ========================================================================= */
 .mobile-menu-btn {
     display: none;
-    background: none;
+    background: transparent;
     border: none;
     cursor: pointer;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    position: relative;
+    z-index: 210;
     flex-direction: column;
-    gap: 5px;
-    z-index: 201;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .mobile-menu-btn span {
     display: block;
-    width: 26px;
-    height: 2px;
+    width: 24px;
+    height: 2.5px;
     background-color: var(--green-raio);
-    transition: all 0.3s ease;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Animazione Hamburger -> X */
-.mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
-.mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* Stato aperto: trasforma le 3 righe in una X */
+.mobile-menu-btn.open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.mobile-menu-btn.open span:nth-child(2) {
+    opacity: 0;
+}
+.mobile-menu-btn.open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
 
 /* =========================================================================
    HERO SECTION CON BANNER E MEDAGLIONE CIRCOLARE SFUMATO
@@ -1061,77 +1075,58 @@ body {
     color: var(--text-secondary);
 }
 
-/* RESPONSIVE */
-/* RESPONSIVE MOBILE */
+/* =========================================================================
+   RESPONSIVE MOBILE (@media max-width: 960px)
+   ========================================================================= */
 @media (max-width: 960px) {
-    /* Navbar e Menu a tendina */
     .nav-container {
-        justify-content: space-between;
-        padding: 12px 20px;
-        gap: 0;
-    }
-    .mobile-menu-btn {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 18px;
+        width: 100%;
     }
+
+    .mobile-menu-btn {
+        display: flex; /* Visibile su telefono */
+    }
+
+    /* Menu a tendina a tutto schermo */
     .nav-links {
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100vh;
-        background: var(--bg-cream);
+        width: 100vw;
+        height: 100dvh;
+        background-color: #FAF4E6;
+        display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 40px;
-        transform: translateY(-100%); /* Nascosto in alto */
-        transition: transform 0.4s ease;
-        z-index: 199;
-    }
-    .nav-links.menu-open {
-        transform: translateY(0);
-    }
-    .nav-links a {
-        font-family: var(--font-heading);
-        font-size: 2rem;
-    }
-    
-    /* Sistemazione Banner Sformato e Spazi */
-    .hero-banner-section {
-        min-height: 100svh; /* Usa svh per ignorare la barra di Safari/Chrome */
-        padding: 110px 20px 40px; /* Più spazio in alto per distaccarsi dalla navbar */
-    }
-    .hero-logo-medallion {
-        width: 140px;
-        height: 140px;
-        padding: 14px;
-        margin-top: 10px;
-    }
-    .hero-content h1 {
-        font-size: clamp(2.4rem, 8vw, 3.2rem);
+        align-items: center;
+        gap: 36px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        z-index: 205; /* Superiore alla navbar stessa */
     }
 
-    /* Layout Vasetto */
-    .showcase-main-grid,
-    .heritage-grid,
-    .valley-top-showcase,
-    .pillars-grid,
-    .contact-grid,
-    .form-row-2 {
-        grid-template-columns: 1fr;
+    .nav-links.menu-open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
     }
-    .hex-large {
-        width: 310px;
-        height: 350px;
+
+    .nav-links a {
+        font-family: var(--font-heading);
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: var(--green-raio);
+        text-decoration: none;
+        transition: color 0.2s ease;
     }
-    .hex-outline-deco {
-        width: 335px;
-        height: 380px;
-    }
-    .hex-cluster-duo {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    .hex-photo-item.offset-down {
-        margin-top: 0;
+
+    .nav-links a:hover {
+        color: var(--amber-gold);
     }
 }
