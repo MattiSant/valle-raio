@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apicoltura Valle Raio | Miele Artigianale di Tornimparte (AQ)</title>
+    
+    <!-- Font Rustico-Eleganti: Cormorant Garamond (Titoli) & Lora (Testi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- CANVAS GLOBALE POLLINE DORATO MULTI-LIVELLO (Interattivo col mouse) -->
+    <canvas id="pollen-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <img src="logo.jpg" alt="Logo Apicoltura Valle Raio" class="nav-logo-img" onerror="this.style.display='none'">
+                <div class="brand-text">
+                    <span class="brand-main">Apicoltura Valle Raio</span>
+                    <span class="brand-sub">TORNIMPARTE • L'AQUILA</span>
+                </div>
+            </a>
+            <nav class="nav-links">
+                <a href="#i-nostri-mieli">I Nostri Mieli</a>
+                <a href="#nostra-storia">La Nostra Storia</a>
+                <a href="#la-valle">La Valle</a>
+                <a href="#contatti">Ordina</a>
+            </nav>
+            <a href="#contatti" class="btn-nav">Prenota Vasetto</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION CON BANNER "Honey_Banner.jpg" E MEDAGLIONE ROTONDO SFUMATO -->
+    <section class="hero-banner-section">
+        <div class="hero-bg-image" style="background-image: url('Honey_Banner.jpg');"></div>
+        <div class="hero-vignette-overlay"></div>
+
+        <div class="hero-content reveal-up">
+            <div class="hero-logo-wrapper">
+                <div class="hero-logo-medallion">
+                    <img src="logo.jpg" alt="Apicoltura Valle Raio Tornimparte" class="hero-logo" onerror="this.style.display='none'">
+                </div>
+            </div>
+            <span class="eyebrow-tag">TORNIMPARTE (AQ) • RACCOLTO ARTIGIANALE D'ALTURA</span>
+            <h1>Puro nettare d'altura,<br><em>custodito dal tempo.</em></h1>
+            <p>Miele grezzo estratto a freddo dai favi della Valle Raio. Nessun trattamento termico, solo il respiro autentico delle montagne aquilane.</p>
+            <div class="hero-actions">
+                <a href="#i-nostri-mieli" class="btn-primary">Esplora i Nostri Mieli</a>
+                <a href="#nostra-storia" class="btn-outline-light">La Nostra Storia</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================================
+         SEZIONE VETRINA DINAMICA DEI MIELI
+         ====================================================================== -->
+    <section id="i-nostri-mieli" class="honey-showcase-section">
+        
+        <!-- Bagliore atmosferico che cambia colore in base al miele selezionato -->
+        <div class="showcase-ambient-glow" id="showcase-ambient-glow"></div>
+
+        <div class="container">
+            <div class="showcase-header reveal-up">
+                <span class="section-kicker">LA COLLEZIONE STAGIONALE</span>
+                <h2>I Nostri Mieli Artigianali</h2>
+                <p>Seleziona una varietà per scoprire il profilo sensoriale, i formati disponibili e i sentori della Valle Raio.</p>
+                
+                <!-- Selettore Varietà con Frecce e Pillole -->
+                <div class="variety-selector-bar">
+                    <button type="button" class="stage-arrow-btn" id="btn-prev-honey" aria-label="Miele precedente">‹</button>
+                    <div class="variety-pills" id="variety-pills-container"></div>
+                    <button type="button" class="stage-arrow-btn" id="btn-next-honey" aria-label="Miele successivo">›</button>
+                </div>
+            </div>
+
+            <!-- Griglia Principale: Foto Esagonale a Sinistra + Scheda Degustazione a Destra -->
+            <div class="showcase-main-grid">
+                
+                <!-- COLONNA SINISTRA: CORNICE ESAGONALE CON FOTO REALE E POLLINE INTORNO -->
+                <div class="hex-visual-column reveal-up">
+                    <div class="hex-stage-wrapper">
+                        <!-- Esagono Decorativo di Sfondo (Filigrana) -->
+                        <div class="hex-outline-deco"></div>
+
+                        <!-- Cornice Esagonale Principale -->
+                        <div class="hex-frame hex-large" id="product-hex-frame">
+                            <div class="hex-inner">
+                                <img id="showcase-honey-img" src="vasetti.jpg" alt="Vasetti Miele Apicoltura Valle Raio" onerror="this.src='Honey_Banner.jpg'">
+                            </div>
+                        </div>
+
+                        <!-- Bollino Fluttuante Esagonale Piccolo (100% Grezzo) -->
+                        <div class="hex-badge-floating">
+                            <span>100%</span>
+                            <small>ITALIANO</small>
+                        </div>
+
+                        <!-- Timbro Esaurito (visibile solo se disponibile: false) -->
+                        <div class="soldout-ribbon hidden" id="showcase-soldout-badge">RACCOLTO ESAURITO</div>
+                    </div>
+                </div>
+
+                <!-- COLONNA DESTRA: SCHEDA DI DEGUSTAZIONE INTERATTIVA -->
+                <div class="tasting-panel-column reveal-up">
+                    <div class="tasting-card" id="tasting-card">
+                        
+                        <div class="tasting-card-top">
+                            <span class="tasting-index" id="tasting-index">COLLEZIONE 01 / 03</span>
+                            <span class="tasting-status-pill" id="tasting-status-pill">Raccolto Disponibile</span>
+                        </div>
+
+                        <h3 class="tasting-title" id="tasting-title">Miele di Acacia</h3>
+                        <p class="tasting-subtitle" id="tasting-subtitle">Cristallino, vellutato, dal profumo gentile di fiori bianchi.</p>
+                        
+                        <p class="tasting-desc" id="tasting-desc">
+                            Raccolto nei boschi puri della Valle Raio a maggio. Naturalmente ricco di fruttosio, resta liquido a lungo e offre al palato delicate note di vaniglia e confetto.
+                        </p>
+
+                        <div class="tasting-specs">
+                            <div class="t-spec-box">
+                                <span class="t-spec-label">SENTORI AROMATICI</span>
+                                <span class="t-spec-val" id="tasting-notes">Fiori di robinia, vaniglia, mandorla</span>
+                            </div>
+                            <div class="t-spec-box">
+                                <span class="t-spec-label">ABBINAMENTI CONSIGLIATI</span>
+                                <span class="t-spec-val" id="tasting-pairings">Formaggi freschi, yogurt, tisane</span>
+                            </div>
+                        </div>
+
+                        <div class="tasting-formats-block">
+                            <span class="format-label-title">Clicca sul formato per selezionarlo:</span>
+                            <div class="formats-selector-grid" id="formats-selector-grid"></div>
+                        </div>
+
+                        <div class="tasting-actions">
+                            <button type="button" class="btn-order-main" id="btn-order-main">
+                                Prenota questo vasetto (500g)
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================================
+         SEZIONE: LA NOSTRA STORIA (Con 2 Cornici Fotografiche Esagonali a Favo)
+         ====================================================================== -->
+    <section id="nostra-storia" class="heritage-section">
+        <div class="container">
+            <div class="heritage-grid">
+                
+                <!-- Testo Storia + Mosaico Esagonale -->
+                <div class="heritage-left reveal-up">
+                    <span class="section-kicker">TRADIZIONE DI FAMIGLIA</span>
+                    <h2>Una passione nata tra i silenzi delle montagne</h2>
+                    <div class="divider-ornament"></div>
+                    <p class="lead-paragraph">
+                        <strong>Apicoltura Valle Raio</strong> nasce dal legame profondo con la nostra terra, Tornimparte, e dal desiderio di preservare un mestiere antico fatto di osservazione, pazienza e rispetto assoluto per il ciclo delle stagioni.
+                    </p>
+                    <p>
+                        Quella che è iniziata come una vocazione familiare si è trasformata in una realtà artigianale che rifiuta ogni scorciatoia industriale. Ogni arnia viene seguita singolarmente: conosciamo le fioriture, attendiamo che le api opercolino i favi al giusto grado di maturazione e procediamo alla smielatura esclusivamente a freddo.
+                    </p>
+
+                    <!-- COPPIA DI ESAGONI FOTOGRAFICI INTRECCIATI -->
+                    <!-- Puoi salvare nella cartella "foto-storia-1.jpg" e "foto-storia-2.jpg" -->
+                    <div class="hex-cluster-duo">
+                        <div class="hex-photo-item">
+                            <div class="hex-frame hex-medium">
+                                <div class="hex-inner">
+                                    <img src="foto-storia-1.jpg" alt="Cura artigianale delle arnie" onerror="this.src='vasetti.jpg'">
+                                </div>
+                            </div>
+                            <span class="hex-caption">I nostri raccolti</span>
+                        </div>
+
+                        <div class="hex-photo-item offset-down">
+                            <div class="hex-frame hex-medium">
+                                <div class="hex-inner">
+                                    <img src="foto-storia-2.jpg" alt="Smielatura a freddo a Tornimparte" onerror="this.src='Honey_Banner.jpg'">
+                                </div>
+                            </div>
+                            <span class="hex-caption">Lavorazione a freddo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Metodo e Promessa -->
+                <div class="heritage-right reveal-up">
+                    <div class="milestone-card">
+                        <span class="milestone-year">IL METODO ARTIGIANALE</span>
+                        <h3>Smielatura a freddo e decantazione naturale</h3>
+                        <p>Il miele non viene mai pastorizzato né sottoposto a ultrafiltrazioni. Dopo la centrifugazione meccanica, riposa in maturatori d'acciaio dove affiora naturalmente in superficie ogni minima impurità, mantenendo intatti enzimi, pollini e profumi.</p>
+                    </div>
+                    <div class="milestone-card">
+                        <span class="milestone-year">LA PROMESSA DI PUREZZA</span>
+                        <h3>Trasparenza dal favo alla tavola</h3>
+                        <p>Ogni vasetto porta il nome della nostra valle perché riflette fedelmente l'annata climatica. La cristallizzazione spontanea nei mesi più freddi è il sigillo di un alimento vivo, integro e 100% italiano.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================================
+         SEZIONE: LA VALLE (Con Esagono Fotografico Centrale sul Territorio)
+         ====================================================================== -->
+    <section id="la-valle" class="valley-section">
+        <div class="container">
+            
+            <div class="valley-top-showcase reveal-up">
+                <div class="valley-header">
+                    <span class="section-kicker">IL TERRITORIO D'ORIGINE</span>
+                    <h2>Tornimparte e l'ecosistema della Valle Raio</h2>
+                    <p>Situata alle pendici dell'Appennino abruzzese in provincia dell'Aquila, la Valle Raio offre un corridoio botanico incontaminato, lontano dall'agricoltura intensiva e dalle arterie industriali.</p>
+                </div>
+
+                <!-- ESAGONO FOTOGRAFICO DEDICATO AL TERRITORIO -->
+                <!-- Puoi salvare nella cartella "foto-valle.jpg" -->
+                <div class="valley-hex-feature">
+                    <div class="hex-frame hex-medium-wide">
+                        <div class="hex-inner">
+                            <img src="foto-valle.jpg" alt="Panorama della Valle Raio a Tornimparte" onerror="this.src='Honey_Banner.jpg'">
+                        </div>
+                    </div>
+                    <span class="hex-caption">Fioriture spontanee della Valle Raio — Tornimparte (AQ)</span>
+                </div>
+            </div>
+
+            <div class="pillars-grid">
+                <div class="pillar-item reveal-up">
+                    <span class="pillar-num">01</span>
+                    <div class="pillar-line"></div>
+                    <h3>Biodiversità Montana d'Alta Quota</h3>
+                    <p>L'escursione termica tra il giorno e la notte e la ricchezza delle sorgenti del torrente Raio favoriscono fioriture spontanee ad alta concentrazione aromatica, conferendo al nettare sfumature uniche.</p>
+                </div>
+
+                <div class="pillar-item reveal-up">
+                    <span class="pillar-num">02</span>
+                    <div class="pillar-line"></div>
+                    <h3>Apiari Stanziali in Zone Incontaminate</h3>
+                    <p>Le nostre postazioni sono collocate tra boschi di robinia, castagneti secolari e pascoli d'altura, garantendo alle famiglie di api un ambiente salubre e privo di contaminanti chimici.</p>
+                </div>
+
+                <div class="pillar-item reveal-up">
+                    <span class="pillar-num">03</span>
+                    <div class="pillar-line"></div>
+                    <h3>Filiera Corta e Controllo Diretto</h3>
+                    <p>Dalla cura invernale degli alveari fino all'invasettamento manuale, ogni fase produttiva avviene internamente nella nostra azienda agricola a Tornimparte, assicurando tracciabilità totale.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SEZIONE CONTATTI & ORDINI -->
+    <section id="contatti" class="contact-section">
+        <div class="container contact-grid">
+            <div class="contact-info reveal-up">
+                <span class="section-kicker">VENDITA DIRETTAMENTE DAL PRODUTTORE</span>
+                <h2>Prenota i tuoi vasetti</h2>
+                <p>Seleziona la varietà e il formato che preferisci: puoi ritirare direttamente in azienda a Tornimparte (AQ) o concordare con noi la consegna.</p>
+                
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">SEDE AZIENDALE</span>
+                        <span class="info-val">Tornimparte (AQ) — Valle Raio, Abruzzo</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">RECAPITO TELEFONICO / WHATSAPP</span>
+                        <span class="info-val">+39 333 123 4567</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">POSTA ELETTRONICA</span>
+                        <span class="info-val">info@apicolturavalleraio.it</span>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/393331234567?text=Buongiorno%20Apicoltura%20Valle%20Raio,%20vorrei%20informazioni%20per%20ordinare%20il%20vostro%20miele." target="_blank" class="btn-whatsapp">
+                    Contattaci direttamente su WhatsApp
+                </a>
+            </div>
+
+            <div class="contact-form-wrapper reveal-up">
+                <form id="orderForm" action="https://formspree.io/f/TUO_CODICE_FORMSPREE" method="POST" class="contact-form">
+                    <h3>Modulo di Richiesta Ordine</h3>
+                    
+                    <div class="form-group">
+                        <label for="name">Nome e Cognome</label>
+                        <input type="text" id="name" name="Nome" placeholder="Es. Mario Rossi" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail o Numero di Telefono</label>
+                        <input type="text" id="email" name="Recapito" placeholder="Per ricontattarti" required>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="honey-select">Varietà di Miele</label>
+                            <select id="honey-select" name="Miele_Scelto">
+                                <option value="Assortimento Misto">Assortimento Misto</option>
+                                <option value="Miele di Acacia">Miele di Acacia</option>
+                                <option value="Miele Millefiori">Miele Millefiori</option>
+                                <option value="Miele di Castagno">Miele di Castagno</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="format-select">Formato Preferito</label>
+                            <select id="format-select" name="Formato_Scelto">
+                                <option value="250g">Vasetto da 250 g</option>
+                                <option value="500g" selected>Vasetto da 500 g</option>
+                                <option value="1000g">Vasetto da 1000 g</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Quantità e Note aggiuntive</label>
+                        <textarea id="message" name="Messaggio" rows="4" placeholder="Indica il numero di vasetti desiderati..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Invia Richiesta all'Azienda</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-brand">Apicoltura Valle Raio — Tornimparte (AQ)</p>
+            <p class="footer-sub">Miele Artigianale 100% Italiano • Lavorato a freddo nel rispetto delle api</p>
+        </div>
+    </footer>
+
+    <!-- GSAP & ScrollTrigger per animazioni di comparsa burrose -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

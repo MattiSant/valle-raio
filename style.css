@@ -1,0 +1,1090 @@
+:root {
+    --bg-cream: #FBF6EA;
+    --bg-warm-paper: #F2E8D5;
+    --green-raio: #1B6B3A;
+    --green-dark: #114726;
+    --amber-gold: #D98218;
+    --gold-border: #DCA23A;
+    --earth-brown: #5A3E24;
+    --text-primary: #241911;
+    --text-secondary: #5A4A3A;
+    --border-rustic: rgba(110, 80, 45, 0.22);
+    --font-heading: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Lora', Georgia, serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.65;
+    overflow-x: hidden;
+}
+
+/* =========================================================================
+   CANVAS POLLINE POTENZIATO (Presente e vivo lungo tutta la pagina)
+   ========================================================================= */
+#pollen-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 28px;
+    position: relative;
+    z-index: 5;
+}
+
+/* =========================================================================
+   NAVBAR
+   ========================================================================= */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+    background: rgba(251, 246, 234, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-rustic);
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.nav-logo-img {
+    height: 42px;
+    width: 42px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 2px 10px rgba(90, 62, 36, 0.15);
+}
+
+.brand-main {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--green-raio);
+    line-height: 1;
+}
+
+.brand-sub {
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    color: var(--earth-brown);
+    font-weight: 600;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color 0.25s;
+}
+
+.nav-links a:hover {
+    color: var(--green-raio);
+}
+
+.btn-nav {
+    background: var(--green-raio);
+    color: #fff;
+    padding: 9px 22px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 600;
+    transition: background 0.25s;
+}
+
+.btn-nav:hover {
+    background: var(--green-dark);
+}
+
+/* =========================================================================
+   HERO SECTION CON BANNER E MEDAGLIONE CIRCOLARE SFUMATO
+   ========================================================================= */
+.hero-banner-section {
+    position: relative;
+    height: 94vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFDF9;
+    overflow: hidden;
+    padding: 80px 24px 40px;
+    background-color: #24160A;
+}
+
+.hero-bg-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+    animation: slowKenBurns 22s ease-in-out infinite alternate;
+}
+
+@keyframes slowKenBurns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.08); }
+}
+
+.hero-vignette-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: radial-gradient(circle at center, rgba(28, 17, 7, 0.45) 0%, rgba(18, 11, 4, 0.82) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 4;
+    max-width: 840px;
+}
+
+.hero-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.hero-logo-medallion {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, 
+        #FFFFFF 0%, 
+        #FFFFFF 56%, 
+        rgba(255, 253, 248, 0.88) 70%, 
+        rgba(255, 248, 230, 0.35) 86%, 
+        rgba(255, 248, 230, 0) 100%
+    );
+    box-shadow: 
+        0 0 45px 12px rgba(255, 248, 225, 0.32),
+        0 18px 40px rgba(0, 0, 0, 0.35);
+    padding: 22px;
+}
+
+.hero-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    -webkit-mask-image: radial-gradient(circle, #000 62%, rgba(0, 0, 0, 0.6) 82%, transparent 98%);
+    mask-image: radial-gradient(circle, #000 62%, rgba(0, 0, 0, 0.6) 82%, transparent 98%);
+}
+
+.eyebrow-tag {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    color: #F8D57E;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+.hero-content h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.9rem, 5.6vw, 4.8rem);
+    font-weight: 600;
+    line-height: 1.06;
+    margin-bottom: 22px;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
+.hero-content h1 em {
+    color: #F8D57E;
+    font-style: italic;
+}
+
+.hero-content p {
+    font-size: 1.12rem;
+    color: rgba(255, 250, 240, 0.92);
+    max-width: 620px;
+    margin: 0 auto 34px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background: var(--amber-gold);
+    color: #fff;
+    padding: 14px 34px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(217, 130, 24, 0.35);
+    transition: background 0.25s, transform 0.25s;
+}
+
+.btn-primary:hover {
+    background: #b96b0e;
+    transform: translateY(-2px);
+}
+
+.btn-outline-light {
+    border: 1.5px solid rgba(255, 255, 255, 0.65);
+    color: #fff;
+    padding: 14px 34px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.25s;
+}
+
+.btn-outline-light:hover {
+    background: #fff;
+    color: var(--text-primary);
+}
+
+.scroll-down-indicator {
+    position: absolute;
+    bottom: 24px;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.scroll-line-anim {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(to bottom, #F8D57E, transparent);
+}
+
+/* =========================================================================
+   CORNICI FOTOGRAFICHE ESAGONALI (HEXAGON FRAMES)
+   ========================================================================= */
+.hex-frame {
+    position: relative;
+    /* Taglio esagonale con punta in alto e in basso (Stile favo naturale) */
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: linear-gradient(135deg, #F6D379 0%, #C88219 50%, #8C580C 100%);
+    padding: 6px; /* Spessore del bordo dorato esagonale */
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hex-frame:hover {
+    transform: translateY(-6px) scale(1.02);
+}
+
+.hex-inner {
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: #241911;
+    overflow: hidden;
+    position: relative;
+}
+
+.hex-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.65s ease, opacity 0.35s ease;
+}
+
+.hex-frame:hover .hex-inner img {
+    transform: scale(1.07);
+}
+
+/* Dimensioni Esagoni */
+.hex-large {
+    width: 410px;
+    height: 465px;
+}
+
+.hex-medium {
+    width: 215px;
+    height: 245px;
+}
+
+.hex-medium-wide {
+    width: 310px;
+    height: 350px;
+}
+
+.hex-caption {
+    display: block;
+    text-align: center;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--earth-brown);
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* =========================================================================
+   SEZIONE VETRINA DINAMICA DEI MIELI (Fluida e Interattiva)
+   ========================================================================= */
+.honey-showcase-section {
+    position: relative;
+    padding: 105px 0 115px;
+    background-color: #FAF2DC;
+    transition: background-color 0.65s ease;
+    overflow: hidden;
+}
+
+.showcase-ambient-glow {
+    position: absolute;
+    top: 55%;
+    left: 28%;
+    transform: translate(-50%, -50%);
+    width: 650px;
+    height: 650px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 200, 75, 0.55) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.65s ease;
+}
+
+.showcase-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 54px;
+    position: relative;
+    z-index: 5;
+}
+
+.showcase-header h2 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--green-raio);
+    line-height: 1.1;
+    margin-bottom: 12px;
+}
+
+.showcase-header p {
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+}
+
+/* Barra Selettore Varietà */
+.variety-selector-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 253, 248, 0.94);
+    border: 1px solid var(--border-rustic);
+    border-radius: 50px;
+    padding: 7px 14px;
+    box-shadow: 0 10px 30px rgba(70, 45, 15, 0.08);
+}
+
+.stage-arrow-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border-rustic);
+    background: #FFFDF9;
+    color: var(--earth-brown);
+    font-size: 1.3rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.stage-arrow-btn:hover {
+    background: var(--green-raio);
+    color: #fff;
+    border-color: var(--green-raio);
+}
+
+.variety-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.jump-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border-radius: 40px;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.jump-btn:hover {
+    background: rgba(27, 107, 58, 0.08);
+}
+
+.jump-btn.active {
+    background: var(--green-raio);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(27, 107, 58, 0.28);
+}
+
+.color-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* Griglia Esagono + Scheda Degustazione */
+.showcase-main-grid {
+    display: grid;
+    grid-template-columns: 0.95fr 1.15fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+}
+
+.hex-visual-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hex-stage-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 25px 45px rgba(55, 35, 10, 0.22));
+}
+
+/* Esagono decorativo ruotato dietro la foto principale */
+.hex-outline-deco {
+    position: absolute;
+    width: 446px;
+    height: 504px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: rgba(217, 130, 24, 0.18);
+    transform: rotate(8deg);
+    z-index: -1;
+    transition: transform 0.6s ease;
+}
+
+.hex-stage-wrapper:hover .hex-outline-deco {
+    transform: rotate(14deg) scale(1.03);
+}
+
+/* Piccolo badge esagonale dorato flottante */
+.hex-badge-floating {
+    position: absolute;
+    bottom: 18px;
+    right: -12px;
+    width: 96px;
+    height: 108px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: var(--green-raio);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #F6D379;
+    z-index: 10;
+}
+
+.hex-badge-floating span {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #F8D57E;
+}
+
+.hex-badge-floating small {
+    font-size: 0.55rem;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+    margin-top: 3px;
+}
+
+.soldout-ribbon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    background: rgba(158, 42, 43, 0.95);
+    color: #fff;
+    padding: 10px 28px;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    z-index: 20;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Scheda Degustazione a Destra */
+.tasting-card {
+    width: 100%;
+    background: rgba(255, 253, 248, 0.96);
+    border: 1px solid var(--border-rustic);
+    border-radius: 10px;
+    padding: 40px 44px;
+    box-shadow: 0 22px 50px rgba(60, 40, 15, 0.08);
+}
+
+.tasting-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tasting-index {
+    font-size: 0.72rem;
+    letter-spacing: 2.5px;
+    font-weight: 700;
+    color: var(--earth-brown);
+}
+
+.tasting-status-pill {
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(27, 107, 58, 0.12);
+    color: var(--green-raio);
+}
+
+.tasting-title {
+    font-family: var(--font-heading);
+    font-size: 2.9rem;
+    font-weight: 700;
+    color: var(--green-raio);
+    line-height: 1.05;
+    margin-bottom: 6px;
+}
+
+.tasting-subtitle {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--amber-gold);
+    margin-bottom: 14px;
+}
+
+.tasting-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.65;
+}
+
+.tasting-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 14px 16px;
+    background: rgba(242, 232, 213, 0.55);
+    border: 1px solid rgba(150, 115, 70, 0.2);
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.t-spec-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    color: var(--earth-brown);
+    margin-bottom: 3px;
+}
+
+.t-spec-val {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.format-label-title {
+    display: block;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--earth-brown);
+    margin-bottom: 8px;
+}
+
+.formats-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.format-card-btn {
+    background: #FFFFFF;
+    border: 1.5px solid rgba(130, 95, 55, 0.3);
+    border-radius: 6px;
+    padding: 10px 8px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.format-card-btn:hover:not(:disabled) {
+    border-color: var(--green-raio);
+    transform: translateY(-2px);
+}
+
+.format-card-btn.selected {
+    border: 2px solid var(--green-raio);
+    background: rgba(27, 107, 58, 0.09);
+    box-shadow: 0 5px 14px rgba(27, 107, 58, 0.14);
+}
+
+.format-card-btn .fc-size {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.format-card-btn .fc-price {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.1;
+}
+
+.format-card-btn .fc-status {
+    display: block;
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: var(--green-raio);
+    margin-top: 2px;
+}
+
+.format-card-btn.unavailable {
+    opacity: 0.42;
+    background: #E6DFCE;
+    cursor: not-allowed;
+}
+
+.format-card-btn.unavailable .fc-price {
+    text-decoration: line-through;
+}
+
+.format-card-btn.unavailable .fc-status {
+    color: #9E2A2B;
+}
+
+.btn-order-main {
+    width: 100%;
+    padding: 15px 20px;
+    background: var(--green-raio);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    box-shadow: 0 8px 20px rgba(27, 107, 58, 0.22);
+}
+
+.btn-order-main:hover:not(:disabled) {
+    background: var(--green-dark);
+    transform: translateY(-1px);
+}
+
+.btn-order-main:disabled {
+    background: #9E9589;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.hidden { display: none !important; }
+
+/* =========================================================================
+   SEZIONE STORIA CON DUO ESAGONALE A NIDO D'APE
+   ========================================================================= */
+.heritage-section {
+    padding: 115px 0;
+    background: var(--bg-warm-paper);
+    border-top: 1px solid var(--border-rustic);
+    border-bottom: 1px solid var(--border-rustic);
+    position: relative;
+}
+
+.heritage-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.section-kicker {
+    display: inline-block;
+    font-size: 0.76rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--amber-gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.heritage-left h2,
+.valley-header h2,
+.contact-info h2 {
+    font-family: var(--font-heading);
+    font-size: 2.85rem;
+    font-weight: 700;
+    color: var(--green-raio);
+    line-height: 1.12;
+}
+
+.divider-ornament {
+    width: 60px;
+    height: 2px;
+    background: var(--amber-gold);
+    margin: 20px 0;
+}
+
+.lead-paragraph {
+    font-size: 1.12rem;
+    margin-bottom: 16px;
+}
+
+/* Coppia di esagoni sfalsati nella sezione Storia */
+.hex-cluster-duo {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    margin-top: 36px;
+    filter: drop-shadow(0 15px 30px rgba(60, 40, 15, 0.16));
+}
+
+.hex-photo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hex-photo-item.offset-down {
+    margin-top: 38px;
+}
+
+.heritage-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.milestone-card {
+    background: var(--bg-cream);
+    border: 1px solid var(--border-rustic);
+    padding: 32px;
+    border-radius: 6px;
+}
+
+.milestone-year {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    color: var(--earth-brown);
+    font-weight: 600;
+}
+
+.milestone-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--green-raio);
+    margin: 6px 0 10px;
+}
+
+/* =========================================================================
+   SEZIONE LA VALLE CON ESAGONO PANORAMICO
+   ========================================================================= */
+.valley-section {
+    padding: 115px 0;
+    background: var(--bg-cream);
+    position: relative;
+}
+
+.valley-top-showcase {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 48px;
+    align-items: center;
+    margin-bottom: 64px;
+}
+
+.valley-header {
+    text-align: left;
+}
+
+.valley-header p {
+    margin-top: 14px;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+}
+
+.valley-hex-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: drop-shadow(0 18px 35px rgba(60, 40, 15, 0.18));
+}
+
+.pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+}
+
+.pillar-item {
+    background: #FFFDF9;
+    border: 1px solid var(--border-rustic);
+    padding: 38px 32px;
+    border-radius: 6px;
+}
+
+.pillar-num {
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--amber-gold);
+    line-height: 1;
+}
+
+.pillar-line {
+    width: 100%;
+    height: 1px;
+    background: var(--border-rustic);
+    margin: 16px 0 20px;
+}
+
+.pillar-item h3 {
+    font-family: var(--font-heading);
+    font-size: 1.55rem;
+    color: var(--green-raio);
+    margin-bottom: 12px;
+}
+
+.pillar-item p {
+    color: var(--text-secondary);
+    font-size: 0.94rem;
+}
+
+/* =========================================================================
+   CONTATTI & FOOTER
+   ========================================================================= */
+.contact-section {
+    padding: 105px 0;
+    background: var(--bg-warm-paper);
+    border-top: 1px solid var(--border-rustic);
+    position: relative;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.info-list {
+    margin: 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    color: var(--earth-brown);
+    font-weight: 600;
+}
+
+.info-val {
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.btn-whatsapp {
+    display: inline-block;
+    background: var(--green-raio);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contact-form {
+    background: var(--bg-cream);
+    border: 1px solid var(--border-rustic);
+    padding: 40px;
+    border-radius: 6px;
+}
+
+.contact-form h3 {
+    font-family: var(--font-heading);
+    font-size: 1.9rem;
+    color: var(--green-raio);
+    margin-bottom: 22px;
+}
+
+.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.84rem;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: #FFFDF9;
+    border: 1px solid var(--border-rustic);
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 0.94rem;
+    color: var(--text-primary);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: var(--amber-gold);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.footer {
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid var(--border-rustic);
+    background: var(--bg-cream);
+    position: relative;
+}
+
+.footer-brand {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--green-raio);
+}
+
+.footer-sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+    .showcase-main-grid,
+    .heritage-grid,
+    .valley-top-showcase,
+    .pillars-grid,
+    .contact-grid,
+    .form-row-2 {
+        grid-template-columns: 1fr;
+    }
+    .hex-large {
+        width: 310px;
+        height: 350px;
+    }
+    .hex-outline-deco {
+        width: 335px;
+        height: 380px;
+    }
+    .hex-cluster-duo {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .hex-photo-item.offset-down {
+        margin-top: 0;
+    }
+    .nav-links { display: none; }
+}
