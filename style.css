@@ -53,108 +53,147 @@ body {
 }
 
 /* =========================================================================
-   SMART NAVBAR (A scomparsa)
+   MENU FLOTTANTE COMPATTO CON TENDINA SCURA ELEGANTE (PC & MOBILE)
    ========================================================================= */
-.navbar {
+.floating-nav {
     position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 200;
-    background: rgba(251, 246, 234, 0.94);
+    top: 20px;
+    left: 20px;
+    z-index: 300;
+    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.3s ease;
+}
+
+/* Scompare quando si scorre verso il basso */
+.floating-nav.nav-hidden {
+    transform: translateY(-90px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Bottone Hamburger Circolare in stile Ambra/Legno Scuro */
+.hamburger-trigger {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(28, 18, 9, 0.85);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-rustic);
-    transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1), background 0.3s ease;
-}
-
-/* Classe aggiunta da JS per nascondere la barra */
-.navbar.nav-hidden {
-    transform: translateY(-100%);
-}
-
-.nav-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 12px 28px;
-    display: flex;
-    justify-content: center; /* Su PC centra tutto in modo elegante */
-    align-items: center;
-    gap: 40px;
-}
-
-.nav-links {
-    display: flex;
-    gap: 32px;
-    align-items: center;
-}
-
-.nav-links a {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: color 0.25s;
-}
-
-.nav-links a:hover {
-    color: var(--green-raio);
-}
-
-.btn-nav {
-    background: var(--green-raio);
-    color: #fff;
-    padding: 10px 24px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    white-space: nowrap;
-    transition: background 0.25s;
-}
-
-.btn-nav:hover {
-    background: var(--green-dark);
-}
-
-/* =========================================================================
-   PULSANTE HAMBURGER ROBUSTO
-   ========================================================================= */
-.mobile-menu-btn {
-    display: none;
-    background: transparent;
-    border: none;
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(248, 213, 126, 0.45);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
     cursor: pointer;
-    width: 44px;
-    height: 44px;
-    padding: 10px;
-    position: relative;
-    z-index: 210;
+    display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    gap: 6px;
+    padding: 0;
+    transition: all 0.25s ease;
 }
 
-.mobile-menu-btn span {
+.hamburger-trigger:hover {
+    background: rgba(28, 18, 9, 0.96);
+    border-color: #F8D57E;
+    transform: scale(1.04);
+}
+
+.hamburger-trigger span {
     display: block;
-    width: 24px;
-    height: 2.5px;
-    background-color: var(--green-raio);
+    width: 20px;
+    height: 2px;
+    background-color: #F8D57E;
     border-radius: 2px;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Stato aperto: trasforma le 3 righe in una X */
-.mobile-menu-btn.open span:nth-child(1) {
+.hamburger-trigger.open span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
 }
-.mobile-menu-btn.open span:nth-child(2) {
+.hamburger-trigger.open span:nth-child(2) {
     opacity: 0;
 }
-.mobile-menu-btn.open span:nth-child(3) {
+.hamburger-trigger.open span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
 }
 
+/* Tendina compatta che si apre sotto le 3 lineette */
+.compact-dropdown {
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 245px;
+    background: rgba(26, 16, 8, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(248, 213, 126, 0.32);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.96);
+    transform-origin: top left;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.compact-dropdown.menu-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.dropdown-kicker {
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    color: rgba(248, 213, 126, 0.7);
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.compact-dropdown a:not(.btn-dropdown-cta) {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #FFFDF9;
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.compact-dropdown a:not(.btn-dropdown-cta):hover {
+    color: #F8D57E;
+    transform: translateX(4px);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: rgba(248, 213, 126, 0.2);
+    margin: 4px 0;
+}
+
+.btn-dropdown-cta {
+    display: block;
+    text-align: center;
+    background: var(--green-raio);
+    color: #FFFFFF;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 11px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background 0.25s ease;
+}
+
+.btn-dropdown-cta:hover {
+    background: var(--amber-gold);
+}
+
 /* =========================================================================
-   HERO SECTION CON BANNER E MEDAGLIONE CIRCOLARE SFUMATO
+   HERO SECTION CON BANNER E MEDAGLIONE CIRCOLARE 
    ========================================================================= */
 .hero-banner-section {
     position: relative;
@@ -175,20 +214,13 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: 1;
+    z-index: 0;
     animation: slowKenBurns 22s ease-in-out infinite alternate;
 }
 
 @keyframes slowKenBurns {
     0% { transform: scale(1); }
     100% { transform: scale(1.08); }
-}
-
-.hero-vignette-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    background: radial-gradient(circle at center, rgba(28, 17, 7, 0.45) 0%, rgba(18, 11, 4, 0.82) 100%);
 }
 
 .hero-content {
@@ -205,8 +237,8 @@ body {
 
 .hero-logo-medallion {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 185px;
+    height: 185px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -387,12 +419,26 @@ body {
 /* =========================================================================
    SEZIONE VETRINA DINAMICA DEI MIELI (Fluida e Interattiva)
    ========================================================================= */
+/* SEZIONI CON TRANSIZIONI SFUMATE (Zero linee di stacco brusche!) */
 .honey-showcase-section {
     position: relative;
-    padding: 105px 0 115px;
+    padding: 90px 0 10px;
     background-color: #FAF2DC;
     transition: background-color 0.65s ease;
     overflow: hidden;
+    border: none;
+}
+
+/* Velo sfumato sul fondo della sezione Mieli che si fonde con La Nostra Storia */
+.honey-showcase-section::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    background: linear-gradient(180deg, rgba(242, 232, 213, 0) 0%, var(--bg-warm-paper) 100%);
+    pointer-events: none;
 }
 
 .showcase-ambient-glow {
@@ -786,10 +832,10 @@ body {
    SEZIONE STORIA CON DUO ESAGONALE A NIDO D'APE
    ========================================================================= */
 .heritage-section {
-    padding: 115px 0;
-    background: var(--bg-warm-paper);
-    border-top: 1px solid var(--border-rustic);
-    border-bottom: 1px solid var(--border-rustic);
+    padding: 0px 0 0px;
+    /* Sfuma dolcemente da --bg-warm-paper verso --bg-cream sul fondo */
+    background: linear-gradient(180deg, var(--bg-warm-paper) 0%, var(--bg-warm-paper) 82%, var(--bg-cream) 100%);
+    border: none;
     position: relative;
 }
 
@@ -883,8 +929,10 @@ body {
    SEZIONE LA VALLE CON ESAGONO PANORAMICO
    ========================================================================= */
 .valley-section {
-    padding: 115px 0;
-    background: var(--bg-cream);
+    padding: 0px 0 0px;
+    /* Sfuma da --bg-cream verso --bg-warm-paper sul fondo */
+    background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-cream) 82%, var(--bg-warm-paper) 100%);
+    border: none;
     position: relative;
 }
 
@@ -957,9 +1005,10 @@ body {
    CONTATTI & FOOTER
    ========================================================================= */
 .contact-section {
-    padding: 105px 0;
-    background: var(--bg-warm-paper);
-    border-top: 1px solid var(--border-rustic);
+    padding: 0px 0 0px;
+    /* Sfuma da --bg-warm-paper verso --bg-cream del footer */
+    background: linear-gradient(180deg, var(--bg-warm-paper) 0%, var(--bg-warm-paper) 85%, var(--bg-cream) 100%);
+    border: none;
     position: relative;
 }
 
@@ -1058,9 +1107,8 @@ body {
 }
 
 .footer {
-    padding: 40px 0;
+    padding: 45px 0;
     text-align: center;
-    border-top: 1px solid var(--border-rustic);
     background: var(--bg-cream);
     position: relative;
 }
@@ -1078,15 +1126,434 @@ body {
 }
 
 /* =========================================================================
-   OTTIMIZZAZIONE MOBILE COMPLETA (Niente tagli, proporzioni perfette)
+   STILE "LA TUA LISTA DI MIELE" (Cassetta di Prenotazione Rapida)
+   ========================================================================= */
+.shopping-crate-card {
+    background: #FFFDF9;
+    border: 1px solid var(--border-rustic);
+    border-radius: 12px;
+    padding: 34px 32px;
+    box-shadow: 0 22px 50px rgba(60, 40, 15, 0.08);
+}
+
+.crate-header h3 {
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    color: var(--green-raio);
+    line-height: 1.1;
+}
+
+.crate-sub {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+}
+
+.quick-add-title {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--earth-brown);
+    margin-bottom: 10px;
+}
+
+.quick-picker-catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed var(--border-rustic);
+}
+
+.picker-honey-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-cream);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(140, 105, 65, 0.18);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.picker-honey-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.picker-format-pills {
+    display: flex;
+    gap: 6px;
+}
+
+.picker-add-pill {
+    background: #FFFFFF;
+    border: 1px solid var(--border-rustic);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--green-raio);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.picker-add-pill:hover {
+    background: var(--green-raio);
+    color: #FFFFFF;
+    border-color: var(--green-raio);
+}
+
+/* Lista Vasetti Selezionati */
+.crate-selected-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+    min-height: 54px;
+}
+
+.empty-crate-msg {
+    font-size: 0.86rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    background: rgba(242, 232, 213, 0.45);
+    padding: 14px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.crate-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FAF4E6;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-left: 3px solid var(--green-raio);
+}
+
+.crate-item-info strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+}
+
+.crate-item-info span {
+    font-size: 0.78rem;
+    color: var(--earth-brown);
+}
+
+.crate-qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border-rustic);
+    background: #FFFFFF;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.qty-btn:hover {
+    background: var(--green-raio);
+    color: #fff;
+    border-color: var(--green-raio);
+}
+
+.qty-val {
+    font-weight: 700;
+    font-size: 0.95rem;
+    min-width: 18px;
+    text-align: center;
+}
+
+.crate-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 4px;
+    border-top: 1px solid var(--border-rustic);
+    border-bottom: 1px solid var(--border-rustic);
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+}
+
+.crate-total-row strong {
+    font-family: var(--font-heading);
+    font-size: 1.55rem;
+    color: var(--green-raio);
+}
+
+.crate-user-fields {
+    margin-bottom: 18px;
+}
+
+.btn-whatsapp-send {
+    width: 100%;
+    padding: 16px 20px;
+    background: var(--green-raio);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.96rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(27, 107, 58, 0.25);
+    transition: background 0.25s, transform 0.2s;
+}
+
+.btn-whatsapp-send:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+}
+
+/* Schermata di Conferma Ordine */
+.crate-confirmation-view {
+    text-align: center;
+    padding: 16px 8px;
+}
+
+.conf-seal-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(27, 107, 58, 0.14);
+    color: var(--green-raio);
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    border: 2px solid var(--green-raio);
+}
+
+.crate-confirmation-view h3 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--green-raio);
+    margin-bottom: 8px;
+}
+
+.conf-summary-box {
+    background: var(--bg-cream);
+    border: 1px dashed var(--border-rustic);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    text-align: left;
+    font-size: 0.88rem;
+}
+
+.conf-reassurance {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 22px;
+    line-height: 1.6;
+}
+
+.btn-reset-crate {
+    background: transparent;
+    border: 1px solid var(--earth-brown);
+    color: var(--earth-brown);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* =========================================================================
+   SEPARATORE EDITORIALE RAFFINATO TRA LE SEZIONI
+   ========================================================================= */
+.section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    max-width: 580px;
+    margin: 0 auto;
+    height: 200px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+    background: transparent !important;
+}
+
+.div-line {
+    flex: 1;
+    height: 1px;
+}
+
+.div-line.left {
+    background: linear-gradient(90deg, transparent 0%, rgba(190, 140, 65, 0.45) 100%);
+}
+
+.div-line.right {
+    background: linear-gradient(90deg, rgba(190, 140, 65, 0.45) 0%, transparent 100%);
+}
+
+.div-hex-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mini-hex {
+    display: inline-block;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: var(--amber-gold);
+}
+
+.mini-hex.side {
+    width: 7px;
+    height: 8px;
+    opacity: 0.55;
+}
+
+.mini-hex.center {
+    width: 12px;
+    height: 14px;
+    background: var(--green-raio);
+}
+
+/* =========================================================================
+   FOTO APE SUI FIORI CON SFUMATURA PERIMETRALE NELLO SFONDO
+   ========================================================================= */
+.contact-photo-box {
+    margin-top: 32px;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+}
+
+.contact-photo-feathered {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+    /* Maschera radiale ellittica: mantiene la geometria orizzontale e sfuma i 4 bordi */
+    -webkit-mask-image: radial-gradient(ellipse 92% 86% at 50% 50%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+    mask-image: radial-gradient(ellipse 92% 86% at 50% 50%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+    filter: saturate(1.08) contrast(1.02);
+    transition: transform 0.4s ease;
+}
+
+.contact-photo-feathered:hover {
+    transform: scale(1.02);
+}
+
+.photo-caption-italic {
+    display: block;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--earth-brown);
+    margin-top: 10px;
+}
+
+
+/* =========================================================================
+   OTTIMIZZAZIONE MOBILE COMPLETA (Immagini adattive, bottoni ed esagoni affiancati)
    ========================================================================= */
 @media (max-width: 960px) {
-    /* Riduzione margini laterali per dare respiro ai contenuti */
     .container {
         padding: 0 18px;
     }
 
-    /* 1. SELEZIONE MIELI: Barra compatta e proporzionata */
+    .floating-nav {
+        top: 14px;
+        left: 14px;
+    }
+
+    /* 1. HERO BANNER: Perfettamente centrato, medaglione libero e bottoni affiancati */
+    .hero-banner-section {
+        min-height: 100dvh;
+        height: auto;
+        padding: 48px 16px 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-bg-image {
+        background-position: center center;
+        background-size: cover;
+    }
+
+    .hero-logo-wrapper {
+        margin-bottom: 14px;
+    }
+
+    .hero-logo-medallion {
+        width: 130px;
+        height: 130px;
+        padding: 14px;
+    }
+
+    .eyebrow-tag {
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.15rem, 7.5vw, 2.9rem);
+        margin-bottom: 12px;
+    }
+
+    .hero-content p {
+        font-size: 0.95rem;
+        margin-bottom: 22px;
+        line-height: 1.5;
+    }
+
+    /* Bottoni "Esplora i Nostri Mieli" e "La Nostra Storia" AFFIANCATI anche su telefono */
+    .hero-actions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 10px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .btn-primary,
+    .btn-outline-light {
+        padding: 12px 14px;
+        font-size: 0.82rem;
+        flex: 1;
+        max-width: 175px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    /* 2. SELEZIONE MIELI & ESAGONO PRODOTTO */
     .showcase-header h2 {
         font-size: clamp(2.1rem, 7vw, 2.6rem);
     }
@@ -1094,10 +1561,10 @@ body {
     .variety-selector-bar {
         display: flex;
         width: 100%;
-        max-width: 360px;
+        max-width: 350px;
         margin: 0 auto;
         justify-content: space-between;
-        padding: 6px 8px;
+        padding: 5px 8px;
         border-radius: 30px;
         gap: 4px;
     }
@@ -1117,9 +1584,9 @@ body {
     }
 
     .variety-pills .jump-btn {
-        padding: 6px 10px;
-        font-size: 0.78rem;
-        gap: 5px;
+        padding: 6px 9px;
+        font-size: 0.76rem;
+        gap: 4px;
     }
 
     .color-dot {
@@ -1127,46 +1594,45 @@ body {
         height: 8px;
     }
 
-    /* 2. ESAGONO PRODOTTO GRANDE: Ridimensionato per non uscire dallo schermo */
     .showcase-main-grid {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 32px;
     }
 
     .hex-stage-wrapper {
         width: 100%;
-        max-width: 270px;
+        max-width: 260px;
         margin: 0 auto;
     }
 
     .hex-large {
-        width: 250px;
-        height: 285px;
+        width: 240px;
+        height: 275px;
     }
 
     .hex-outline-deco {
-        width: 265px;
-        height: 300px;
+        width: 256px;
+        height: 292px;
         transform: rotate(6deg);
     }
 
     .hex-badge-floating {
-        width: 76px;
-        height: 86px;
-        right: -8px;
-        bottom: 10px;
+        width: 74px;
+        height: 84px;
+        right: -6px;
+        bottom: 8px;
     }
 
     .hex-badge-floating span {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
     }
 
     .tasting-card {
-        padding: 24px 20px;
+        padding: 24px 18px;
     }
 
     .tasting-title {
-        font-size: 2.2rem;
+        font-size: 2.15rem;
     }
 
     .formats-selector-grid {
@@ -1181,26 +1647,38 @@ body {
         font-size: 1.15rem;
     }
 
-    /* 3. SEZIONE STORIA: Gli esagoni si incolonnano uno sopra l'altro */
+    /* 3. SEZIONE STORIA: I 2 esagoni restano AFFIANCATI in modo armonioso */
     .heritage-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
     }
 
     .hex-cluster-duo {
-        flex-direction: column; /* Incolonna i due esagoni al centro invece di affiancarli */
-        align-items: center;
-        gap: 24px;
+        display: flex;
+        flex-direction: row; /* Affiancati orizzontalmente! */
+        justify-content: center;
+        align-items: flex-start;
+        gap: 14px;
         margin-top: 28px;
+        width: 100%;
+    }
+
+    .hex-photo-item {
+        flex: 1;
+        max-width: 155px;
     }
 
     .hex-photo-item.offset-down {
-        margin-top: 0;
+        margin-top: 22px; /* Leggero sfalsamento a nido d'ape */
     }
 
     .hex-medium {
-        width: 210px;
-        height: 238px;
+        width: 142px;
+        height: 162px;
+    }
+
+    .hex-caption {
+        font-size: 0.72rem;
     }
 
     /* 4. SEZIONE VALLE E CONTATTI */
@@ -1213,7 +1691,7 @@ body {
     }
 
     .valley-hex-feature .hex-medium-wide {
-        width: 240px;
-        height: 270px;
+        width: 230px;
+        height: 262px;
     }
 }

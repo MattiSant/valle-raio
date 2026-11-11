@@ -17,25 +17,24 @@
     <!-- CANVAS GLOBALE POLLINE DORATO MULTI-LIVELLO (Interattivo col mouse) -->
     <canvas id="pollen-canvas"></canvas>
 
-    <!-- NAVBAR -->
-    <!-- SMART NAVBAR A SCOMPARSA -->
-    <header class="navbar" id="main-navbar">
-        <div class="nav-container">
-            <!-- Pulsante Menu Mobile (Hamburger) -->
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Apri Menu">
-                <span></span><span></span><span></span>
-            </button>
-            
-            <!-- Link di Navigazione -->
-            <nav class="nav-links" id="nav-links">
-                <a href="#i-nostri-mieli">I Nostri Mieli</a>
-                <a href="#nostra-storia">La Nostra Storia</a>
-                <a href="#la-valle">La Valle</a>
-                <a href="#contatti">Ordina</a>
-            </nav>
-            
-            <a href="#contatti" class="btn-nav">Prenota Vasetto</a>
-        </div>
+    <!-- MENU FLOTTANTE COMPATTO (PC & MOBILE) -->
+    <header class="floating-nav" id="main-navbar">
+        <button class="hamburger-trigger" id="mobile-menu-btn" aria-label="Apri Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Tendina laterale elegante sotto il pulsante -->
+        <nav class="compact-dropdown" id="nav-links">
+            <span class="dropdown-kicker">APICOLTURA VALLE RAIO</span>
+            <a href="#i-nostri-mieli">I Nostri Mieli</a>
+            <a href="#nostra-storia">La Nostra Storia</a>
+            <a href="#la-valle">La Valle</a>
+            <a href="#contatti">Contatti & Ordini</a>
+            <div class="dropdown-divider"></div>
+            <a href="#contatti" class="btn-dropdown-cta">Prenota Vasetto</a>
+        </nav>
     </header>
 
     <!-- HERO SECTION CON BANNER "Honey_Banner.jpg" E MEDAGLIONE ROTONDO SFUMATO -->
@@ -151,7 +150,19 @@
 
             </div>
         </div>
+        <!-- SEPARATORE EDITORIALE A TEMA FAVO -->
+        <div class="section-divider" aria-hidden="true">
+            <span class="div-line left"></span>
+            <div class="div-hex-group">
+                <span class="mini-hex side"></span>
+                <span class="mini-hex center"></span>
+                <span class="mini-hex side"></span>
+            </div>
+            <span class="div-line right"></span>
+        </div>
     </section>
+
+    
 
     <!-- ======================================================================
          SEZIONE: LA NOSTRA STORIA (Con 2 Cornici Fotografiche Esagonali a Favo)
@@ -211,7 +222,20 @@
 
             </div>
         </div>
+
+        <!-- SEPARATORE EDITORIALE A TEMA FAVO -->
+        <div class="section-divider" aria-hidden="true">
+            <span class="div-line left"></span>
+            <div class="div-hex-group">
+                <span class="mini-hex side"></span>
+                <span class="mini-hex center"></span>
+                <span class="mini-hex side"></span>
+            </div>
+            <span class="div-line right"></span>
+        </div>
     </section>
+
+    
 
     <!-- ======================================================================
          SEZIONE: LA VALLE (Con Esagono Fotografico Centrale sul Territorio)
@@ -260,81 +284,122 @@
                     <p>Dalla cura invernale degli alveari fino all'invasettamento manuale, ogni fase produttiva avviene internamente nella nostra azienda agricola a Tornimparte, assicurando tracciabilità totale.</p>
                 </div>
             </div>
-
+        </div>
+        <!-- SEPARATORE EDITORIALE A TEMA FAVO -->
+        <div class="section-divider" aria-hidden="true">
+            <span class="div-line left"></span>
+            <div class="div-hex-group">
+                <span class="mini-hex side"></span>
+                <span class="mini-hex center"></span>
+                <span class="mini-hex side"></span>
+            </div>
+            <span class="div-line right"></span>
         </div>
     </section>
 
-    <!-- SEZIONE CONTATTI & ORDINI -->
+    <!-- SEZIONE CONTATTI & LISTA DELLA SPESA RAPIDA WHATSAPP -->
     <section id="contatti" class="contact-section">
         <div class="container contact-grid">
             <div class="contact-info reveal-up">
-                <span class="section-kicker">VENDITA DIRETTAMENTE DAL PRODUTTORE</span>
-                <h2>Prenota i tuoi vasetti</h2>
-                <p>Seleziona la varietà e il formato che preferisci: puoi ritirare direttamente in azienda a Tornimparte (AQ) o concordare con noi la consegna.</p>
+                <span class="section-kicker">CONTATTO DIRETTO COL PRODUTTORE</span>
+                <h2>Compila la tua lista e prenota su WhatsApp</h2>
+                <p>Non effettuiamo spedizioni, solo ritiro a mano. <br> Seleziona i vasetti che desideri qui a fianco (o dalla sezione "I Nostri Mieli") e inviaci la tua lista con un click! <br> Ti risponderemo subito per concordare il ritiro o la consegna in zona.</p>
                 
                 <div class="info-list">
                     <div class="info-item">
-                        <span class="info-label">SEDE AZIENDALE</span>
-                        <span class="info-val">Tornimparte (AQ) — Valle Raio, Abruzzo</span>
+                        <span class="info-label">PUNTO DI RITIRO</span>
+                        <span class="info-val">Tornimparte (AQ)</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">RECAPITO TELEFONICO / WHATSAPP</span>
-                        <span class="info-val">+39 333 123 4567</span>
+                        <span class="info-label">TELEFONO </span>
+                        <span class="info-val">+39 347 bla bla</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">POSTA ELETTRONICA</span>
-                        <span class="info-val">info@apicolturavalleraio.it</span>
+                        <span class="info-val">facciojumielebono@gmail.com</span>
                     </div>
                 </div>
-
-                <a href="https://wa.me/393331234567?text=Buongiorno%20Apicoltura%20Valle%20Raio,%20vorrei%20informazioni%20per%20ordinare%20il%20vostro%20miele." target="_blank" class="btn-whatsapp">
-                    Contattaci direttamente su WhatsApp
-                </a>
+                <!--Immagine Ape sul fiore-->
+                <div class="contact-photo-box">
+                    <img src="ApeSuFiore.jpg"class="contact-photo-feathered" onerror="this.style.display='none'">
+                </div>
             </div>
 
+            <!-- LA CASSETTA DI PRENOTAZIONE (Lista della spesa per pigri) -->
             <div class="contact-form-wrapper reveal-up">
-                <form id="orderForm" action="https://formspree.io/f/TUO_CODICE_FORMSPREE" method="POST" class="contact-form">
-                    <h3>Modulo di Richiesta Ordine</h3>
+                <div class="shopping-crate-card" id="shopping-crate-card">
                     
-                    <div class="form-group">
-                        <label for="name">Nome e Cognome</label>
-                        <input type="text" id="name" name="Nome" placeholder="Es. Mario Rossi" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">E-mail o Numero di Telefono</label>
-                        <input type="text" id="email" name="Recapito" placeholder="Per ricontattarti" required>
-                    </div>
-
-                    <div class="form-row-2">
-                        <div class="form-group">
-                            <label for="honey-select">Varietà di Miele</label>
-                            <select id="honey-select" name="Miele_Scelto">
-                                <option value="Assortimento Misto">Assortimento Misto</option>
-                                <option value="Miele di Acacia">Miele di Acacia</option>
-                                <option value="Miele Millefiori">Miele Millefiori</option>
-                                <option value="Miele di Castagno">Miele di Castagno</option>
-                            </select>
+                    <!-- VISTA 1: COMPILAZIONE LISTA -->
+                    <div id="crate-builder-view">
+                        <div class="crate-header">
+                            <h3>La Tua Lista</h3>
+                            <p class="crate-sub">Aggiungi o modifica le quantità con un click</p>
                         </div>
 
-                        <div class="form-group">
-                            <label for="format-select">Formato Preferito</label>
-                            <select id="format-select" name="Formato_Scelto">
-                                <option value="250g">Vasetto da 250 g</option>
-                                <option value="500g" selected>Vasetto da 500 g</option>
-                                <option value="1000g">Vasetto da 1000 g</option>
-                            </select>
+                        <!-- Selettore Rapido per aggiungere qualsiasi miele/formato al volo -->
+                        <div class="quick-add-box">
+                            <span class="quick-add-title">Aggiunta rapida dalla dispensa:</span>
+                            <div id="quick-picker-catalog" class="quick-picker-catalog">
+                                <!-- Generato automaticamente da JS in base ai mieli disponibili -->
+                            </div>
                         </div>
+
+                        <!-- Riepilogo Vasetti Scelti -->
+                        <div class="crate-items-Wrapper">
+                            <span class="quick-add-title">Vasetti nella tua lista:</span>
+                            <div id="crate-selected-list" class="crate-selected-list">
+                                <!-- Popolato da JS -->
+                            </div>
+                            <div class="crate-total-row" id="crate-total-row">
+                                <span>Totale :</span>
+                                <strong id="crate-total-price">€ 0,00</strong>
+                            </div>
+                        </div>
+
+                        <!-- Dati minimi del cliente -->
+                        <div class="crate-user-fields">
+                            <div class="form-group">
+                                <label for="customer-name">Il tuo Nome</label>
+                                <input type="text" id="customer-name" placeholder="Es. Marco Rossi">
+                            </div>
+                            <div class="form-group">
+                                <label for="customer-notes">Note o preferenze per il ritiro (opzionale)</label>
+                                <input type="text" id="customer-notes" placeholder="Es. Preferisco consegna a L'Aquila nel weekend">
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-whatsapp-send" id="btn-send-whatsapp-order">
+                            Invia la Lista su WhatsApp a Valle Raio
+                        </button>
                     </div>
 
-                    <div class="form-group">
-                        <label for="message">Quantità e Note aggiuntive</label>
-                        <textarea id="message" name="Messaggio" rows="4" placeholder="Indica il numero di vasetti desiderati..." required></textarea>
+                    <!-- VISTA 2: MESSAGGIO DI CONFERMA AL CLIENTE (Compare dopo il click) -->
+                    <div id="crate-confirmation-view" class="crate-confirmation-view hidden">
+                        <div class="conf-seal-icon">✓</div>
+                        <h3>Richiesta Pronta e Registrata!</h3>
+                        <p><center>Grazie <strong id="conf-customer-name"></strong>!</center><br> Abbiamo preparato il riepilogo della tua lista su WhatsApp.</p>
+                        <div class="conf-summary-box" id="conf-summary-box"></div>
+                        <p class="conf-reassurance">
+                            <strong>Cosa succede ora?</strong><br>
+                            Se si è aperta la chat di WhatsApp, premi semplicemente <em>"Invia"</em>. Riceveremo la lista dei vasetti e <strong>ti ricontatteremo appena possibile</strong> per confermarti la disponibilità e accordarci comodamente.
+                        </p>
+                        <button type="button" class="btn-reset-crate" id="btn-reset-crate">
+                            Modifica o crea una nuova lista
+                        </button>
                     </div>
 
-                    <button type="submit" class="btn-submit">Invia Richiesta all'Azienda</button>
-                </form>
+                </div>
             </div>
+        </div>
+        <!-- SEPARATORE EDITORIALE A TEMA FAVO -->
+        <div class="section-divider" aria-hidden="true">
+            <span class="div-line left"></span>
+            <div class="div-hex-group">
+                <span class="mini-hex side"></span>
+                <span class="mini-hex center"></span>
+                <span class="mini-hex side"></span>
+            </div>
+            <span class="div-line right"></span>
         </div>
     </section>
 

@@ -8,6 +8,9 @@
  * - disponibile: false    -> Mostra il miele con il nastro "RACCOLTO ESAURITO".
  * - formati -> disp: false -> Barra quel singolo formato rendendolo non selezionabile.
  */
+
+const NUMERO_WHATSAPP = "393279080132"; // con prefisso 39(poi numero)
+
 const CATALOGO_MIELI = [
     {
         key: "acacia",
@@ -86,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initEnhancedPollenCanvas();
     initScrollRevealAnimations();
     initSmartNavbar();
+    initShoppingCrate();
 
     if (mieliAttivi.length === 0) return;
 
@@ -190,18 +194,19 @@ function selezionaVarieta(index, animateTransition = true) {
             formatsGrid.appendChild(btn);
         });
 
-        // Azione pulsante Prenota -> Compila il form e scorre giù
-        orderBtn.onclick = () => {
-            const honeySelect = document.getElementById("honey-select");
-            const formatSelect = document.getElementById("format-select");
-            const messageBox = document.getElementById("message");
+        // Testo del pulsante nella scheda degustazione
+        orderBtn.textContent = `+ Aggiungi alla tua lista (${miele.formatoScelto})`;
 
-            if (honeySelect) honeySelect.value = miele.nomeCompleto;
-            if (formatSelect) formatSelect.value = miele.formatoScelto;
-            if (messageBox) {
-                messageBox.value = `Buongiorno Apicoltura Valle Raio, vorrei prenotare il vostro ${miele.nomeCompleto} nel formato da ${miele.formatoScelto}.`;
-            }
-            document.getElementById("contatti").scrollIntoView({ behavior: "smooth" });
+        // Azione pulsante: aggiunge il vasetto scelto alla Lista e mostra un feedback
+        orderBtn.onclick = () => {
+            aggiungiAllaLista(miele.key, miele.formatoScelto);
+            const originalText = orderBtn.textContent;
+            orderBtn.textContent = `✓ Aggiunto (${miele.nomeBreve} ${miele.formatoScelto})! Scorri o aggiungine altri`;
+            orderBtn.style.background = "#D98218";
+            setTimeout(() => {
+                orderBtn.textContent = originalText;
+                orderBtn.style.background = "";
+            }, 1600);
         };
 
         // Aggiorna pillola attiva
@@ -409,26 +414,59 @@ function initSmartNavbar() {
     const menuBtn = document.getElementById('mobile-menu-btn');
     const navLinks = document.getElementById('nav-links');
 
-    if (!menuBtn || !navLinks) return;
+    if (!navbar || !menuBtn || !navLinks) return;
 
-    // Apertura/Chiusura al click sull'hamburger
-    menuBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = navLinks.classList.toggle('menu-open');
-        menuBtn.classList.toggle('open', isOpen);
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
+    let closeTimer = null;
 
-    // Chiude il menu cliccando su qualsiasi link interno
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
+    // Funzione di apertura immediata (cancella eventuali chiusure in corso)
+    const openMenu = () => {
+        if (closeTimer) clearTimeout(closeTimer);
+        navLinks.classList.add('menu-open');
+        menuBtn.classList.add('open');
+    };
+
+    // Funzione di chiusura ammortizzata
+    const scheduleClose = () => {
+        closeTimer = setTimeout(() => {
             navLinks.classList.remove('menu-open');
             menuBtn.classList.remove('open');
-            document.body.style.overflow = '';
+        }, 220); // 220ms: il tempo perfetto per attraversare lo spazio vuoto
+    };
+
+    // 1. Hover su Bottone e su Tendina
+    menuBtn.addEventListener('mouseenter', openMenu);
+    navLinks.addEventListener('mouseenter', openMenu);
+
+    menuBtn.addEventListener('mouseleave', scheduleClose);
+    navLinks.addEventListener('mouseleave', scheduleClose);
+
+    // 2. Click per smartphone / touch (dove l'hover del mouse non esiste)
+    menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (closeTimer) clearTimeout(closeTimer);
+        const isOpen = navLinks.classList.toggle('menu-open');
+        menuBtn.classList.toggle('open', isOpen);
+    });
+
+    // 3. Chiudi quando l'utente clicca su un link interno
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (closeTimer) clearTimeout(closeTimer);
+            navLinks.classList.remove('menu-open');
+            menuBtn.classList.remove('open');
         });
     });
 
-    // Scomparsa intelligente della navbar allo scroll in basso
+    // 4. Chiudi se l'utente clicca in qualsiasi punto esterno
+    document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target)) {
+            if (closeTimer) clearTimeout(closeTimer);
+            navLinks.classList.remove('menu-open');
+            menuBtn.classList.remove('open');
+        }
+    });
+
+    // 5. Scomparsa intelligente della navbar allo scroll in basso
     let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
     window.addEventListener('scroll', () => {
         if (navLinks.classList.contains('menu-open')) return;
@@ -441,4 +479,196 @@ function initSmartNavbar() {
         }
         lastScrollY = Math.max(0, currentScrollY);
     }, { passive: true });
+}
+
+/**
+ * ============================================================================
+ * LOGICA "LA TUA LISTA" (Multi-varietà, Multi-formato & WhatsApp)
+ * ============================================================================
+ */
+// Array che contiene gli articoli scelti: { key, nomeCompleto, size, prezzoNum, prezzoStr, qty }
+let carrelloVasetti = [];
+
+function parsePrezzo(prezzoStr) {
+    return parseFloat(prezzoStr.replace("€", "").replace(",", ".").trim()) || 0;
+}
+
+function formatEuro(num) {
+    return "€ " + num.toFixed(2).replace(".", ",");
+}
+
+function initShoppingCrate() {
+    const catalogContainer = document.getElementById("quick-picker-catalog");
+    if (!catalogContainer) return;
+
+    catalogContainer.innerHTML = "";
+
+    // Crea i pulsanti rapidi "+ 250g", "+ 500g", "+ 1000g" per ogni miele disponibile
+    mieliAttivi.forEach(miele => {
+        if (!miele.disponibile) return;
+
+        const row = document.createElement("div");
+        row.className = "picker-honey-row";
+
+        const formatButtonsHTML = miele.formati
+            .filter(f => f.disp)
+            .map(f => `<button type="button" class="picker-add-pill" data-key="${miele.key}" data-size="${f.size}">+ ${f.size}</button>`)
+            .join("");
+
+        row.innerHTML = `
+            <span class="picker-honey-name">
+                <span class="color-dot" style="background:${miele.colorePunto}"></span>
+                ${miele.nomeBreve}
+            </span>
+            <div class="picker-format-pills">${formatButtonsHTML}</div>
+        `;
+
+        row.querySelectorAll(".picker-add-pill").forEach(btn => {
+            btn.addEventListener("click", () => {
+                aggiungiAllaLista(btn.getAttribute("data-key"), btn.getAttribute("data-size"));
+            });
+        });
+
+        catalogContainer.appendChild(row);
+    });
+
+    // Bottone invio WhatsApp
+    const sendBtn = document.getElementById("btn-send-whatsapp-order");
+    if (sendBtn) {
+        sendBtn.addEventListener("click", inviaOrdineSuWhatsApp);
+    }
+
+    // Bottone reset/modifica lista dopo la conferma
+    const resetBtn = document.getElementById("btn-reset-crate");
+    if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+            document.getElementById("crate-confirmation-view").classList.add("hidden");
+            document.getElementById("crate-builder-view").classList.remove("hidden");
+        });
+    }
+
+    aggiornaUICarrello();
+}
+
+function aggiungiAllaLista(honeyKey, size) {
+    const miele = mieliAttivi.find(m => m.key === honeyKey);
+    if (!miele || !miele.disponibile) return;
+
+    const fmt = miele.formati.find(f => f.size === size && f.disp);
+    if (!fmt) return;
+
+    const existing = carrelloVasetti.find(item => item.key === honeyKey && item.size === size);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        carrelloVasetti.push({
+            key: honeyKey,
+            nomeCompleto: miele.nomeCompleto,
+            size: fmt.size,
+            prezzoStr: fmt.prezzo,
+            prezzoNum: parsePrezzo(fmt.prezzo),
+            qty: 1
+        });
+    }
+
+    // Assicura che sia visibile la vista di compilazione
+    document.getElementById("crate-confirmation-view")?.classList.add("hidden");
+    document.getElementById("crate-builder-view")?.classList.remove("hidden");
+
+    aggiornaUICarrello();
+}
+
+function cambiaQuantitaLista(index, delta) {
+    if (!carrelloVasetti[index]) return;
+    carrelloVasetti[index].qty += delta;
+    if (carrelloVasetti[index].qty <= 0) {
+        carrelloVasetti.splice(index, 1);
+    }
+    aggiornaUICarrello();
+}
+
+function aggiornaUICarrello() {
+    const listEl = document.getElementById("crate-selected-list");
+    const totalEl = document.getElementById("crate-total-price");
+    if (!listEl || !totalEl) return;
+
+    if (carrelloVasetti.length === 0) {
+        listEl.innerHTML = `<div class="empty-crate-msg">La tua lista è ancora vuota. Tocca i formati qui sopra (es. + 500g) per aggiungere i vasetti che desideri!</div>`;
+        totalEl.textContent = "€ 0,00";
+        return;
+    }
+
+    listEl.innerHTML = "";
+    let totale = 0;
+
+    carrelloVasetti.forEach((item, idx) => {
+        const subtot = item.prezzoNum * item.qty;
+        totale += subtot;
+
+        const itemRow = document.createElement("div");
+        itemRow.className = "crate-item-row";
+        itemRow.innerHTML = `
+            <div class="crate-item-info">
+                <strong>${item.nomeCompleto} (${item.size})</strong>
+                <span>${item.prezzoStr} cad. • Subtotale: ${formatEuro(subtot)}</span>
+            </div>
+            <div class="crate-qty-controls">
+                <button type="button" class="qty-btn" data-idx="${idx}" data-delta="-1">−</button>
+                <span class="qty-val">${item.qty}</span>
+                <button type="button" class="qty-btn" data-idx="${idx}" data-delta="1">+</button>
+            </div>
+        `;
+
+        itemRow.querySelectorAll(".qty-btn").forEach(b => {
+            b.addEventListener("click", () => {
+                cambiaQuantitaLista(parseInt(b.getAttribute("data-idx")), parseInt(b.getAttribute("data-delta")));
+            });
+        });
+
+        listEl.appendChild(itemRow);
+    });
+
+    totalEl.textContent = formatEuro(totale);
+}
+
+function inviaOrdineSuWhatsApp() {
+    if (carrelloVasetti.length === 0) {
+        alert("Aggiungi almeno un vasetto alla tua lista prima di inviare!");
+        return;
+    }
+
+    const nameInput = document.getElementById("customer-name");
+    const notesInput = document.getElementById("customer-notes");
+    const nomeCliente = nameInput && nameInput.value.trim() ? nameInput.value.trim() : " ";
+    const noteCliente = notesInput && notesInput.value.trim() ? notesInput.value.trim() : "";
+
+    let totale = 0;
+    const righeProdotti = carrelloVasetti.map(item => {
+        const sub = item.prezzoNum * item.qty;
+        totale += sub;
+        return `• *${item.qty}x ${item.nomeCompleto}* (${item.size}) — ${formatEuro(sub)}`;
+    });
+
+    // Costruisce il messaggio WhatsApp ordinato e professionale
+    let testoWA = `Buongiorno *Apicoltura Valle Raio*!\n`;
+    testoWA += `Sono *${nomeCliente}* e vorrei prenotare questi vasetti dal vostro sito:\n\n`;
+    testoWA += righeProdotti.join("\n");
+    testoWA += `\n\n*Totale indicativo:* ${formatEuro(totale)}`;
+    if (noteCliente) {
+        testoWA += `\n*Note:* ${noteCliente}`;
+    }
+    testoWA += `\n\nAttendo vostra conferma sulla disponibilità, grazie!`;
+
+    // Mostra subito sulla pagina la schermata di conferma per il cliente
+    document.getElementById("conf-customer-name").textContent = nomeCliente;
+    document.getElementById("conf-summary-box").innerHTML =
+        carrelloVasetti.map(i => `<div>• <strong>${i.qty}x ${i.nomeCompleto} (${i.size})</strong></div>`).join("") +
+        `<div style="margin-top:8px; padding-top:6px; border-top:1px solid rgba(0,0,0,0.1);"><strong>Totale stimato: ${formatEuro(totale)}</strong></div>`;
+
+    document.getElementById("crate-builder-view").classList.add("hidden");
+    document.getElementById("crate-confirmation-view").classList.remove("hidden");
+
+    // Apre WhatsApp con il messaggio già pronto da inviare
+    const urlWA = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(testoWA)}`;
+    window.open(urlWA, "_blank");
 }
